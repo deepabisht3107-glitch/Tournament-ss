@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d2b52">
+  <title>SSAB Badminton Tournament</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="SSAB home">
+      <span class="brand-mark">🏸</span>
+      <span><strong>SSAB</strong><small>BADMINTON ACADEMY</small></span>
+    </a>
+    <nav>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#players">Players</a>
+      <a href="#draw">Tournament Draw</a>
+      <a href="#results">Results</a>
+    </nav>
+    <button class="btn btn-outline" id="exportBtn">Export data</button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="dot"></span> ACADEMY TOURNAMENT MANAGER</div>
+        <h1>Play hard.<br><span>Win fair.</span></h1>
+        <p>Organise your 32-player knockout tournament, record scores and follow every match all the way to the final.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#players">Set up players <span>→</span></a>
+          <a class="btn btn-light" href="#draw">View draw</a>
+        </div>
+        <div class="hero-note">SINGLE ELIMINATION <i>•</i> 32 PLAYERS <i>•</i> 31 MATCHES</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orb orb-one"></div><div class="orb orb-two"></div>
+        <div class="court-lines"></div>
+        <div class="big-shuttle">🏸</div>
+        <div class="hero-badge"><span>🏆</span><div><strong>ONE CHAMPION</strong><small>31 matches to glory</small></div></div>
+      </div>
+    </section>
+
+    <section class="stats-grid" id="dashboard">
+      <article class="stat-card"><div class="stat-icon blue">👥</div><div><span>Players</span><strong id="statPlayers">32</strong><small>In the draw</small></div></article>
+      <article class="stat-card"><div class="stat-icon green">✓</div><div><span>Matches completed</span><strong id="statCompleted">0 <em>/ 31</em></strong><small id="statProgress">Tournament not started</small></div></article>
+      <article class="stat-card"><div class="stat-icon orange">⚡</div><div><span>Matches remaining</span><strong id="statRemaining">31</strong><small>Until champion is crowned</small></div></article>
+      <article class="stat-card champion-stat"><div class="stat-icon gold">🏆</div><div><span>Champion</span><strong id="statChampion">TBD</strong><small>Winner of the final</small></div></article>
+    </section>
+
+    <section class="panel" id="players">
+      <div class="section-heading">
+        <div><div class="eyebrow">TOURNAMENT SETUP</div><h2>Players & draw</h2><p>Add your players, then generate the bracket.</p></div>
+        <div class="heading-actions"><button class="btn btn-outline" id="fillDemoBtn">Use demo names</button><button class="btn btn-primary" id="generateBtn">Generate random draw ↗</button></div>
+      </div>
+      <div class="setup-grid">
+        <div class="form-card">
+          <label for="tournamentName">Tournament name</label>
+          <input id="tournamentName" type="text" value="SSAB Academy Open">
+          <div class="two-fields">
+            <div><label for="eventDate">Date</label><input id="eventDate" type="date"></div>
+            <div><label for="venue">Venue</label><input id="venue" type="text" value="Ekta Vihar, Dehradun"></div>
+          </div>
+          <label for="format">Match format</label>
+          <select id="format"><option value="1">Best of 1 game (21 points)</option><option value="3" selected>Best of 3 games (21 points)</option><option value="15">Single game (15 points)</option></select>
+          <div class="notice"><span>ⓘ</span><span>Generating a new draw replaces the current bracket. Export your data first if you want a backup.</span></div>
+        </div>
+        <div class="players-card">
+          <div class="players-card-head"><div><h3>Player list</h3><p>Enter up to 32 names. Empty entries become Player 1, Player 2, etc.</p></div><span class="count-pill" id="nameCount">32 slots</span></div>
+          <div class="player-input-grid" id="playerInputs"></div>
+          <div class="players-footer"><span>Tip: enter names in seed order before generating a random draw.</span><button class="text-btn" id="clearNamesBtn">Clear names</button></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="draw">
+      <div class="section-heading">
+        <div><div class="eyebrow">LIVE BRACKET</div><h2 id="drawTitle">SSAB Academy Open</h2><p id="drawMeta">32 players · Single elimination · 31 matches</p></div>
+        <div class="heading-actions"><button class="btn btn-outline" id="printBtn">Print bracket</button><button class="btn btn-danger-outline" id="resetBtn">Reset results</button></div>
+      </div>
+      <div class="round-legend">
+        <span><i class="legend-dot"></i> Upcoming</span><span><i class="legend-dot played"></i> Completed</span><span><i class="legend-dot current"></i> Ready to play</span>
+        <span class="scroll-hint">← Scroll horizontally to view all rounds →</span>
+      </div>
+      <div class="bracket-wrap"><div class="bracket" id="bracket"></div></div>
+      <div class="bracket-foot"><span>🔒 Results are saved in this browser on this device.</span><span>For live sharing across phones, connect an online database later.</span></div>
+    </section>
+
+    <section class="panel" id="results">
+      <div class="section-heading">
+        <div><div class="eyebrow">MATCH CENTRE</div><h2>Record a result</h2><p>Choose a ready match, enter the game scores and confirm the winner.</p></div>
+      </div>
+      <div class="match-centre-grid">
+        <div class="form-card">
+          <label for="matchSelect">Ready / upcoming match</label>
+          <select id="matchSelect"></select>
+          <div id="selectedMatch" class="selected-match"></div>
+          <div class="score-entry">
+            <div><label id="scoreLabelA" for="scoreA">Player A games/points</label><input id="scoreA" type="number" min="0" max="30" value="21"></div>
+            <div class="score-separator">—</div>
+            <div><label id="scoreLabelB" for="scoreB">Player B games/points</label><input id="scoreB" type="number" min="0" max="30" value="16"></div>
+          </div>
+          <p class="form-help" id="scoreHelp">For best-of-3, enter the final game score for a one-game event or use the score summary notes. This simple manager records the match winner and the score you enter.</p>
+          <label for="scoreNote">Score note (optional)</label><input id="scoreNote" type="text" placeholder="e.g. 21-16, 18-21, 21-12">
+          <button class="btn btn-primary full-btn" id="saveResultBtn">Save result & advance winner</button>
+          <p class="validation" id="validation" role="status"></p>
+        </div>
+        <div class="result-side">
+          <div class="result-highlight"><span class="result-cup">🏆</span><div><span>THE ROAD TO THE TITLE</span><h3 id="resultChampion">Your champion will appear here</h3><p>Every confirmed winner advances automatically to the next round.</p></div></div>
+          <h3 class="subheading">Recent results</h3>
+          <div id="recentResults" class="recent-results"><div class="empty-state">No results yet. Complete your first match to see it here.</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-banner">
+      <div><span class="eyebrow">SSAB BADMINTON ACADEMY</span><h2>Better players. <span>Bigger dreams.</span></h2><p>Compete with respect. Learn from every match. Celebrate every win.</p></div>
+      <div class="final-shuttle">🏸</div>
+    </section>
+    <footer><span>© <span id="year"></span> SSAB Badminton Academy</span><span>Made for your academy tournament</span><button id="clearAllBtn" class="footer-reset">Clear all local data</button></footer>
+  </main>
+
+  <dialog id="confirmDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="dialog-icon">⚠️</div><h3 id="dialogTitle">Are you sure?</h3><p id="dialogText">This action cannot be undone.</p>
+      <div class="dialog-actions"><button class="btn btn-outline" value="cancel">Cancel</button><button class="btn btn-danger" id="confirmAction" value="confirm">Confirm</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="script.js"></script>
+</body>
+</html>
